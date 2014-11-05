@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Bookmarker</title>
+<link rel="stylesheet" href="css/reset.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" />
+<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap-theme.min.css" />
+<link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" />
+<link type="text/css" rel="stylesheet/less" href="css/style.less" />
+<script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+<script src="http://cdnjs.cloudflare.com/ajax/libs/less.js/1.7.0/less.min.js"></script>
+<script>
+$(document).ready(function(e) {
+    getTags();
+});
+function makeLowercase(value){
+	return value.toLowerCase();
+}
+function makeCapitalize(value){
+	return value.charAt(0).toUpperCase() + value.slice(1);
+}
+function makeUppercase(value){
+	return value.toUpperCase();	
+}
+function getTags(){	
+	var items = [];
+	$.ajax({
+       url : 'ajax/getTags.php', // La ressource ciblée
+       type : 'GET' // Le type de la requête HTTP.
+    });
+	$.get( "ajax/getTags.php", function( data ) {
+		/*$.each(data, function(key,val){
+			items.push(val);			
+		});
+		displayTags(items);
+		displayBookmarks();*/
+		console.log(data);
+	});
+}
+function displayTags(categories){
+	$.each(categories, function(key,val){
+		var val = makeCapitalize(makeLowercase(val));
+		$('<article class="tag"><p><i class="fa fa-tag"></i>' + val + '</p></article>').appendTo('#tag_bucket');
+	});
+}
+function displayBookmarks(){
+	$.getJSON("bd/bookmarks.json",function(data){
+		var result = "";
+		$.each(data,function(key,value){
+			var category = key;
+			var bookmarkArray = value.toString().split(",");
+			$('#categoryDropdown').append('<option value="'+category+'">'+category+'</option>');
+			result += '<section id="' + category + '" class="categories">'
+            			+ '<h2 class="categories_title">' + category + '</h2>'
+                		+ '<section class="bookmark_bucket">';
+			$.each(bookmarkArray,function(key,value){
+				result += '<article class="bookmark row">'
+                		+ '<a href="' + value + '" target="_blank" class="bookmark_link col-sm-8">' + value + '</a>'
+                        + '<div class="bookmark_options col-sm-4">'
+                        	+ '<span onclick="goto(this)" id="goto" class="glyphicon glyphicon-share options_button"></span>'
+                            + '<i id="copy" class="fa fa-files-o options_button"></i>'
+                            + '<span id="delete" class="glyphicon glyphicon-trash options_button"></span>'
+                        + '</div>'
+                    + '</article>';
+			});
+			result += '</section></section>';
+		});
+		$('#categories_bucket').html(result);
+	});
+}
+function displaySelectedCategory(category){
+		
+}
+function goto(element){
+	window.location = $(element).parent('.bookmark_options').prev('a').prop('href');	
+}
+function openBookmarkModal(){
+	$('#addBookmarkModal').modal('show');
+}
+function addNewBookmark(){
+	var url = $('#url').val();
+	var category = $('#categoryDropdown').val();	
+}
+</script>
+</head>
+
+<body>
+	<main id="container">		
+    	<h1 id="app_title">Bookmarker</h1><span id="addBookmark" onclick="openBookmarkModal()" class="glyphicon glyphicon-plus"></span>
+        <section id="tag_bucket">
+        	<!-- AJAX load : tags -->            
+        </section>
+        <section id="categories_bucket">
+        	<!-- AJAX load : bookmarks -->
+        </section>
+	</main>
+    
+<!-- Modal -->
+<div class="modal fade" id="addBookmarkModal" tabindex="-1" role="dialog" aria-labelledby="addBookmarkModal" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h4 class="modal-title" id="myModalLabel">Add a Bookmark</h4>
+      </div>
+      <div class="modal-body">
+      	<label for="url">Url : </label>
+      	<input type="text" id="url" />
+        <br /><br />
+        <label for="categoryDropdown">Category : </label>
+      	<select id="categoryDropdown">
+        
+        </select>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal"><span class="glyphicon glyphicon-remove"></span> Close</button>
+        <button type="button" onclick="addNewBookmark()" class="btn btn-primary"><span class="glyphicon glyphicon-plus"></span> Add</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+@font-face {
+  font-family: "AlexBrush";
+  src: url("../fonts/AlexBrush-Regular.ttf");
+}
+@font-face {
+  font-family: "OpenSans";
+  src: url("../fonts/OpenSans-Regular.ttf");
+}
+@font-face {
+  font-family: "OpenSansLight";
+  src: url("../fonts/OpenSans-Light.ttf");
+}
+@font-face {
+  font-family: "OpenSansBold";
+  src: url("../fonts/OpenSans-Bold.ttf");
+}
+@font-face {
+  font-family: "OpenSansSBold";
+  src: url("../fonts/OpenSans-Semibold.ttf");
+}
+/* Variables Declaration */
+/* Function Classes */
+.OpenSans {
+  font-family: "OpenSans", Arial, sans-serif;
+}
+.OpenSansLight {
+  font-family: "OpenSansLight", Arial, sans-serif;
+}
+.OpenSansBold {
+  font-family: "OpenSansBold", Arial, sans-serif;
+}
+.OpenSansSBold {
+  font-family: "OpenSansSBold", Arial, sans-serif;
+}
+.AlexBrush {
+  font-family: "AlexBrush", Arial, sans-serif;
+}
+body {
+  margin: 20px;
+}
+#app_title {
+  font-family: "AlexBrush", Arial, sans-serif;
+  font-size: 4em;
+  color: #5598cf;
+  text-shadow: 1px 1px 2px #000;
+}
+.tag {
+  border: 1px solid #5598cf;
+  border-radius: 8px;
+  background: linear-gradient(to bottom, #ffffff 0%, #f1f1f1 50%, #e1e1e1 51%, #f6f6f6 100%);
+  padding: 8px 12px;
+  color: #5598cf;
+  display:inline-block;
+  width:auto;
+}

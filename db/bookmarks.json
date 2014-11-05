@@ -1,0 +1,10 @@
+{
+	"css" : [
+		"http://www.yahoo.ca",
+		"http://www.bing.ca",
+		"http://www.search.ca"
+	],
+	"html" : [
+		"http://www.search.ca"
+	]
+}
